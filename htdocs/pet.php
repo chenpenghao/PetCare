@@ -5,6 +5,7 @@
     <style>li {
             list-style: none;
         }</style>
+
 </head>
 <body>
 <h2>Supply petid and enter</h2>
@@ -37,6 +38,7 @@ if (isset($_POST['submit'])) {
         <th>Pet Category</th>
         <th>Pet Age</th>
         <th>Pet Size</th>
+        <th>actions</th>
         </tr>
     </thead>
     <tbody>
