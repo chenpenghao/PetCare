@@ -21,17 +21,17 @@
 $db = pg_connect("host=localhost port=5432 dbname=PetCare user=postgres password=12345");
 if (isset($_POST['signup'])) {
     echo "<ul><form name='signup' action='pet_owner.php' method='POST'>  
-      <li>User Password:</li>  
-      <li><input type='text' name='new_userpassword' /></li>   
-      <li>User Name</li>  
-      <li><input type='text' name='new_user_name' /></li>  
-      <li>User Email:</li>  
-      <li><input type='text' name='new_user_email' /></li>  
-      <li>User Address</li>  
-      <li><input type='text' name='new_user_address' /></li> 
-      <li><input type='submit' name='create' value='Create User'/></li>  
-      </form>  
-      </ul>";
+        <li>User Password:</li>  
+        <li><input type='text' name='new_userpassword' /></li>   
+        <li>User Name</li>  
+        <li><input type='text' name='new_user_name' /></li>  
+        <li>User Email:</li>  
+        <li><input type='text' name='new_user_email' /></li>  
+        <li>User Address</li>  
+        <li><input type='text' name='new_user_address' /></li> 
+        <li><input type='submit' name='create' value='Create User'/></li>  
+        </form>  
+        </ul>";
 }
 if (isset($_POST['create'])) {
     $result = pg_query($db, "INSERT INTO pet_user (name,password,email,address) VALUES ('$_POST[new_user_name]','$_POST[new_userpassword]','$_POST[new_user_email],'$_POST[new_user_address]')");
@@ -58,10 +58,10 @@ if (isset($_POST['submit'])) {
     	<li><input type='number' name='userid_updated' value='$row[user_id]' /></li>  
     	<li>User Name</li>  
     	<li><input type='text' name='user_name_updated' value='$row[name]' /></li>  
-      <li>User Email:</li>  
-      <li><input type='text' name='user_email_updated' value='$row[email]' /></li>  
-      <li>User Address</li>  
-      <li><input type='text' name='user_address_updated' value='$row[address]' /></li> 
+        <li>User Email:</li>  
+        <li><input type='text' name='user_email_updated' value='$row[email]' /></li>  
+        <li>User Address</li>  
+        <li><input type='text' name='user_address_updated' value='$row[address]' /></li> 
     	<li><input type='submit' name='new' value='Update'/></li>  
     	</form>  
     	</ul>";
@@ -103,15 +103,15 @@ if (isset($_POST['new'])) {    // Submit the update SQL command
 
 if (isset($_POST['newpet'])) {
     echo "<ul><form name='newpet' action='pet_owner.php' method='POST'>
-      <li>Your User ID:</li>  
-      <li><input type='text' name='userid' /></li>  
-      <li>Your new pet size</li>  
-      <li><input type='text' name='new_petsize' /></li>  
-      <li>Your new pet age:</li>  
-      <li><input type='text' name='new_petage' /></li>
-      <li><input type='submit' name='createnewpet' value='Create Pet'/></li>  
-      </form>  
-      </ul>";
+        <li>Your User ID:</li>  
+        <li><input type='text' name='userid' /></li>  
+        <li>Your new pet size</li>  
+        <li><input type='text' name='new_petsize' /></li>  
+        <li>Your new pet age:</li>  
+        <li><input type='text' name='new_petage' /></li>
+        <li><input type='submit' name='createnewpet' value='Create Pet'/></li>  
+        </form>  
+        </ul>";
 }
 
 
