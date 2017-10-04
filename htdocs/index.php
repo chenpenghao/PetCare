@@ -5,12 +5,12 @@
     <style>li {
             list-style: none;
         }</style>
-    <link rel="stylesheet" type="text/css" href="./vendor/materialize/css/materialize.min.css">
-    <script src="./vendor/materialize/js/materialize.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./Vendor/materialize/css/materialize.min.css">
+    <script src="./Vendor/materialize/js/materialize.min.js"></script>
 </head>
 <body>
 <div class="row center-align">
-    <div class="col s4 push-s4">
+    <div class="col s4 push-s4">V
         <div class="row">
             <a class="waves-effect waves-light btn-large"
                style="background-color: #c27b78"
