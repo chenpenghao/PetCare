@@ -28,21 +28,47 @@ $pet_cat = $row_pcat[name];
 $pet_size = $row_pcat[size];
 $pet_age = $row_pcat[age];
 if (isset($_POST['submit'])) {
-    echo "<ul><form name='update' action='pet.php' method='POST' >  
-    	<li>Pets ID:</li>  
-    	<li><input type='text' name='petid_updated' value='$pet_id' /></li>  
-    	<li>Owner's Name</li>
-    	<li><input type='text' name='user_name_updated' value='$user_name' /></li>  
-    	<li>Pet Category:</li>
-    	<li><input type='text' name='pcat_name_updated' value='$pet_cat' /></li>  
-        <li>Pet Age:</li>
-        <li><input type='text' name='pcat_age_updated' value='$pet_age' /></li>
-        <li>Pet Size:</li>
-        <li><input type='text' name='pcat_size_updated' value='$pet_size' /></li>
-    	</form>  
-    	</ul>";
+    echo "
+    <table>
+    <thead>
+        <tr>
+        <th>Pet ID</th>
+        <th>Owner's Name</th>
+        <th>Pet Category</th>
+        <th>Pet Age</th>
+        <th>Pet Size</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>";
+    echo "<td>" . $pet_id . "</td>";
+    echo "<td>" . $user_name . "</td>";
+    echo "<td>" . $pet_cat . "</td>";
+    echo "<td>" . $pet_age . "</td>";
+    echo "<td>" . $pet_size . "</td>";
+    echo "
+    </tr>
+    </tbody>
+    </table>";
 }
-if (isset($_POST['new'])) {    // Submit the update SQL command
+?>
+<h2>UPDATE PET DETAILS</h2>
+<ul>
+    <form name='update' action='pet.php' method='POST'>
+        <li>Pets ID:</li>
+        <li><input type='text' name='petid_updated'/></li>
+        <li>Owner's Name</li>
+        <li><input type='text' name='user_name_updated'/></li>
+        <li>Pet Category:</li>
+        <li><input type='text' name='pcat_name_updated'/></li>
+        <li>Pet Age:</li>
+        <li><input type='text' name='pcat_age_updated'/></li>
+        <li>Pet Size:</li>
+        <li><input type='text' name='pcat_size_updated'/></li>
+    </form>
+</ul>
+<?php
+if (isset($_POST['new'])) { // Submit the update SQL command
     $result = pg_query($db, "UPDATE pet SET pet_id = '$_POST[petid_updated]'");
     if (!$result) {
         echo "Update failed!!";
