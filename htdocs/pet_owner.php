@@ -1,11 +1,23 @@
+
+
+
 <!DOCTYPE html>
 <head>
-    <title>UPDATE PostgreSQL data with PHP</title>
+    <title>Pet Owner</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>li {
             list-style: none;
         }</style>
-</head>
+
+
+  <li><a class="active" href="index.php">Home</a></li>
+  <li><a href="pet_owner.php">Pet Owner</a></li>
+  <li><a href="care_taker.php">Care Taker</a></li>
+  <li><a href="pet.php">Pet</a></li>
+  <li><a href="request.php">Request</a></li>
+
+
+
 <body>
 <h2>Supply your user id and enter</h2>
 <ul>
@@ -18,7 +30,7 @@
 </ul>
 <?php
 // Connect to the database. Please change the password in the following line accordingly
-$db = pg_connect("host=localhost port=5432 dbname=PetCare user=postgres password=12345");
+$db = pg_connect("host=localhost port=5432 dbname=PetCare user=postgres password=12345678");
 if (isset($_POST['signup'])) {
     echo "<ul><form name='signup' action='pet_owner.php' method='POST'>  
         <li>User Password:</li>  
@@ -30,11 +42,12 @@ if (isset($_POST['signup'])) {
         <li>User Address</li>  
         <li><input type='text' name='new_user_address' /></li> 
         <li><input type='submit' name='create' value='Create User'/></li>  
+
         </form>  
         </ul>";
 }
 if (isset($_POST['create'])) {
-    $result = pg_query($db, "INSERT INTO pet_user (name,password,email,address) VALUES ('$_POST[new_user_name]','$_POST[new_userpassword]','$_POST[new_user_email],'$_POST[new_user_address]')");
+    $result = pg_query($db, "INSERT INTO pet_user (name,password,email,address) VALUES ('$_POST[new_user_name]','$_POST[new_userpassword]','$_POST[new_user_email]','$_POST[new_user_address]')");
 
 
     if ($result) {
@@ -54,17 +67,18 @@ if (isset($_POST['submit'])) {
     $result = pg_query($db, "SELECT * FROM pet_user WHERE user_id = '$_POST[userid]'");   // Query template
     $row = pg_fetch_assoc($result);    // To store the result row
     echo "<ul><form name='update' action='pet_owner.php' method='POST' >  
-    	<li>User ID:</li>  
-    	<li><input type='number' name='userid_updated' value='$row[user_id]' /></li>  
-    	<li>User Name</li>  
-    	<li><input type='text' name='user_name_updated' value='$row[name]' /></li>  
+        <li>User ID:</li>  
+        <li><input type='number' name='userid_updated' value='$row[user_id]' /></li>  
+        <li>User Name</li>  
+        <li><input type='text' name='user_name_updated' value='$row[name]' /></li>  
         <li>User Email:</li>  
         <li><input type='text' name='user_email_updated' value='$row[email]' /></li>  
         <li>User Address</li>  
         <li><input type='text' name='user_address_updated' value='$row[address]' /></li> 
-    	<li><input type='submit' name='new' value='Update'/></li>  
-    	</form>  
-    	</ul>";
+        <li><input type='submit' name='new' value='Update'/></li>
+        <li><input type='submit' name='deleteuser' value='Delete'/></li>  
+        </form>  
+        </ul>";
 
 
     $query = "SELECT p.pets_id, c.name, c.size, c.age FROM pet_user u, pet p, petcategory c WHERE u.user_id = '$_POST[userid]' AND u.user_id = p.owner_id AND p.pcat_id = c.pcat_id";
@@ -130,7 +144,17 @@ if (isset($_POST['createnewpet'])) {
     }
 
 }
+
+if (isset($_POST['deleteuser'])) {    // Submit the delete pet SQL command
+    $result = pg_query($db, "DELETE FROM pet_user  WHERE user_id ='$_POST[userid_updated]'");
+    if (!$result) {
+        die('Query failed: ' . pg_last_error());
+        echo "Delete failed!!";
+    } else {
+        echo "Delete successful!";
+    }
+}
+
 ?>
 </body>
 </html>
-
