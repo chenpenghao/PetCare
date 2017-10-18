@@ -1,4 +1,4 @@
-DROP TABLE request;
+﻿DROP TABLE request;
 DROP TABLE pet;
 DROP TABLE petcategory;
 DROP TABLE pet_user;
@@ -6,10 +6,12 @@ DROP TABLE pet_user;
 DROP SEQUENCE user_id_seq;
 DROP SEQUENCE pets_id_seq;
 DROP SEQUENCE request_id_seq;
+--DROP SEQUENCE avail_id_seq;
 
-CREATE SEQUENCE user_id_seq INCREMENT BY 1 MINVALUE 0 START WITH 0 NO CYCLE;
-CREATE SEQUENCE pets_id_seq INCREMENT BY 1 MINVALUE 0 START WITH 0 NO CYCLE;
-CREATE SEQUENCE request_id_seq INCREMENT BY 1 MINVALUE 0 START WITH 0 NO CYCLE;
+CREATE SEQUENCE user_id_seq INCREMENT BY 1 MINVALUE 0 START WITH 1 NO CYCLE;
+CREATE SEQUENCE pets_id_seq INCREMENT BY 1 MINVALUE 0 START WITH 1 NO CYCLE;
+CREATE SEQUENCE request_id_seq INCREMENT BY 1 MINVALUE 0 START WITH 1 NO CYCLE;
+CREATE SEQUENCE avail_id_seq INCREMENT BY 1 MINVALUE 0 START WITH 1 NO CYCLE;
 
 
 
@@ -22,27 +24,39 @@ CREATE TABLE petcategory(
 
 CREATE TABLE pet_user(
     user_id INT PRIMARY KEY DEFAULT nextval('user_id_seq'),
-    name VARCHAR(64),
-    password VARCHAR(64),
+    name VARCHAR(64) NOT NULL,
+    password VARCHAR(64) NOT NULL,
     email VARCHAR(64) UNIQUE,
-    address VARCHAR(64),
+    address VARCHAR(64)
 );
 
 CREATE TABLE pet(
     pets_id INT PRIMARY KEY DEFAULT nextval('pets_id_seq'),
     owner_id INT REFERENCES pet_user(user_id),
+    pcat_id INT REFERENCES petcategory(pcat_id)
+);
+
+CREATE TABLE availability(
+    avail_id INT PRIMARY KEY DEFAULT nextval('avail_id_seq'),
+    begin_time TIME NOT NULL,
+    begin_date DATE NOT NULL,
+    end_time TIME NOT NULL,
+    end_date DATE NOT NULL,
     pcat_id INT REFERENCES petcategory(pcat_id),
+    taker_id INT REFERENCES pet_user(user_id),
+    is_deleted BOOLEAN
 );
 
 CREATE TABLE request(
     request_id INT PRIMARY KEY DEFAULT nextval('request_id_seq'),
-    owner_id INT REFERENCES pet_user(user_id),
-    care_begin TIMESTAMP,
-    care_end TIMESTAMP,
-    kind_of_work VARCHAR(64),
-    bids NUMERIC,
+    avail_id INT REFERENCES availability(avail_id),
+    begin_time TIME NOT NULL,
+    begin_date DATE NOT NULL,
+    end_time TIME NOT NULL,
+    end_date DATE NOT NULL,
+    bids NUMERIC NOT NULL,
     pets_id INT REFERENCES pet(pets_id),
-    status VARCHAR(20) CHECK (status IN ('pending', 'failed', 'successful'))
+    status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'failed', 'successful'))
 );
 
 INSERT INTO petcategory(pcat_id, age, size, name) VALUES (1,'puppy','small','Chihuahua');
